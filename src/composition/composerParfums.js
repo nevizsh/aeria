@@ -37,7 +37,8 @@ function couleurDuFlacon(m) {
 
   // Une chaîne CSS : comprise à la fois par Three.js (la scène)
   // et par le navigateur (la fiche). Un seul format pour deux usages.
-  return `hsl(${Math.round(teinte)}, ${COULEUR.saturation}%, ${Math.round(luminosite)}%)`
+  // // % 360 ramène la teinte sur le cercle : 380 → 20, 300 → 300
+  return `hsl(${Math.round(teinte) % 360}, ${COULEUR.saturation}%, ${Math.round(luminosite)}%)`
 }
 
 function composerUnParfum(ville, m) {

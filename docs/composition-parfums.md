@@ -76,7 +76,7 @@ La couleur est exprimée en HSL (teinte, saturation, luminosité).
 
 | Composante | Donnée météo | Règle |
 |---|---|---|
-| Teinte | Température | De 220° (bleu) à −10 °C jusqu'à 20° (orange) à 35 °C, de façon continue |
+| Teinte | Température | De 220° (bleu) à −10 °C jusqu'à 20° (orange) à 35 °C, en passant par le violet et le rose, de façon continue |
 | Saturation | — | Fixe, 70 % |
 | Luminosité | Nuages et jour/nuit | 60 % de base, jusqu'à −20 points par ciel couvert, −15 points la nuit |
 

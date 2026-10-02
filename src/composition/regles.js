@@ -52,7 +52,7 @@ export const COULEUR = {
   temperatureMin: -10, // à cette température ou en dessous → teinte froide
   temperatureMax: 35,  // à cette température ou au-dessus → teinte chaude
   teinteFroide: 220,   // bleu (en degrés sur le cercle chromatique)
-  teinteChaude: 20,    // orange
+  teinteChaude: 380,   // = 20° (orange) + un tour complet : on passe par le violet et le rose au lieu du vert
   saturation: 70,      // %
   luminositeBase: 60,  // %
   effetNuages: 20,     // points de luminosité perdus à 100 % de nuages
