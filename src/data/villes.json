@@ -1,0 +1,31 @@
+[
+  { "id": "reykjavik",     "nom": "Reykjavik",      "pays": "Islande",        "continent": "europe",    "latitude": 64.15,  "longitude": -21.94 },
+  { "id": "bergen",        "nom": "Bergen",         "pays": "Norvège",        "continent": "europe",    "latitude": 60.39,  "longitude": 5.32 },
+  { "id": "paris",         "nom": "Paris",          "pays": "France",         "continent": "europe",    "latitude": 48.86,  "longitude": 2.35 },
+  { "id": "seville",       "nom": "Séville",        "pays": "Espagne",        "continent": "europe",    "latitude": 37.39,  "longitude": -5.98 },
+  { "id": "moscou",        "nom": "Moscou",         "pays": "Russie",         "continent": "europe",    "latitude": 55.76,  "longitude": 37.62 },
+
+  { "id": "tokyo",         "nom": "Tokyo",          "pays": "Japon",          "continent": "asie",      "latitude": 35.68,  "longitude": 139.69 },
+  { "id": "bombay",        "nom": "Bombay",         "pays": "Inde",           "continent": "asie",      "latitude": 19.08,  "longitude": 72.88 },
+  { "id": "dubai",         "nom": "Dubaï",          "pays": "Émirats arabes unis", "continent": "asie", "latitude": 25.20,  "longitude": 55.27 },
+  { "id": "oulan-bator",   "nom": "Oulan-Bator",    "pays": "Mongolie",       "continent": "asie",      "latitude": 47.89,  "longitude": 106.91 },
+  { "id": "singapour",     "nom": "Singapour",      "pays": "Singapour",      "continent": "asie",      "latitude": 1.35,   "longitude": 103.82 },
+
+  { "id": "noumea",        "nom": "Nouméa",         "pays": "Nouvelle-Calédonie", "continent": "oceanie", "latitude": -22.27, "longitude": 166.44 },
+  { "id": "sydney",        "nom": "Sydney",         "pays": "Australie",      "continent": "oceanie",   "latitude": -33.87, "longitude": 151.21 },
+  { "id": "auckland",      "nom": "Auckland",       "pays": "Nouvelle-Zélande", "continent": "oceanie", "latitude": -36.85, "longitude": 174.76 },
+  { "id": "alice-springs", "nom": "Alice Springs",  "pays": "Australie",      "continent": "oceanie",   "latitude": -23.70, "longitude": 133.88 },
+  { "id": "papeete",       "nom": "Papeete",        "pays": "Polynésie française", "continent": "oceanie", "latitude": -17.54, "longitude": -149.57 },
+
+  { "id": "le-caire",      "nom": "Le Caire",       "pays": "Égypte",         "continent": "afrique",   "latitude": 30.04,  "longitude": 31.24 },
+  { "id": "marrakech",     "nom": "Marrakech",      "pays": "Maroc",          "continent": "afrique",   "latitude": 31.63,  "longitude": -7.99 },
+  { "id": "dakar",         "nom": "Dakar",          "pays": "Sénégal",        "continent": "afrique",   "latitude": 14.72,  "longitude": -17.47 },
+  { "id": "nairobi",       "nom": "Nairobi",        "pays": "Kenya",          "continent": "afrique",   "latitude": -1.29,  "longitude": 36.82 },
+  { "id": "le-cap",        "nom": "Le Cap",         "pays": "Afrique du Sud", "continent": "afrique",   "latitude": -33.92, "longitude": 18.42 },
+
+  { "id": "anchorage",     "nom": "Anchorage",      "pays": "États-Unis",     "continent": "ameriques", "latitude": 61.22,  "longitude": -149.90 },
+  { "id": "new-york",      "nom": "New York",       "pays": "États-Unis",     "continent": "ameriques", "latitude": 40.71,  "longitude": -74.01 },
+  { "id": "mexico",        "nom": "Mexico",         "pays": "Mexique",        "continent": "ameriques", "latitude": 19.43,  "longitude": -99.13 },
+  { "id": "rio",           "nom": "Rio de Janeiro", "pays": "Brésil",         "continent": "ameriques", "latitude": -22.91, "longitude": -43.17 },
+  { "id": "ushuaia",       "nom": "Ushuaïa",        "pays": "Argentine",      "continent": "ameriques", "latitude": -54.80, "longitude": -68.30 }
+]
