@@ -1,0 +1,204 @@
+/* ── Desktop : panneau latéral (wireframe écran 3) */
+.fiche {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(460px, 100%);
+  box-sizing: border-box;
+  padding: 2rem;
+  overflow-y: auto; /* si l'écran est petit, la fiche défile au lieu d'être coupée */
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  background: var(--panneau);
+  color: var(--texte);
+  border-left: 1px solid var(--trait);
+  animation: entree-cote 0.3s ease-out;
+}
+
+@keyframes entree-cote {
+  from { transform: translateX(100%); }
+}
+
+/* ── Mobile : panneau qui monte du bas */
+@media (max-width: 768px) {
+  .fiche {
+    top: auto;
+    left: 0;
+    width: 100%;
+    /* dvh = hauteur réellement visible, barres du navigateur mobile déduites.
+       Avec vh, le bas de la fiche pourrait passer sous la barre d'adresse. */
+    max-height: 75dvh;
+    padding: 1.25rem;
+    gap: 1.25rem;
+    border-left: none;
+    border-top: 1px solid var(--trait);
+    border-radius: 1.25rem 1.25rem 0 0;
+    animation-name: entree-bas;
+  }
+  .titre { font-size: 2rem; }
+}
+
+@keyframes entree-bas {
+  from { transform: translateY(100%); }
+}
+
+/* Respecte le réglage système « réduire les animations » */
+@media (prefers-reduced-motion: reduce) {
+  .fiche { animation: none; }
+}
+
+/* ── En-tête */
+.entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+/* Petits libellés en capitales, comme sur le wireframe */
+.surtitre,
+.rubrique,
+.niveau,
+.mesure dt {
+  margin: 0;
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--texte-doux);
+}
+
+.titre {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.4rem 0;
+  font-size: 2.5rem;
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.pastille {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.heure {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--texte-doux);
+}
+
+.fermer {
+  width: 2.75rem;  /* 44 px : taille minimale recommandée pour une cible tactile */
+  height: 2.75rem;
+  flex-shrink: 0;
+  border: 1px solid var(--trait);
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* ── Météo */
+.rubrique { margin-bottom: 0.75rem; }
+
+.mesures {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.mesure {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--trait);
+  border-radius: 0.6rem;
+}
+
+.mesure dd {
+  margin: 0.25rem 0 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* ── Pyramide */
+.pyramide {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pyramide li {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--trait);
+}
+
+.raison {
+  font-size: 0.8rem;
+  color: var(--texte-doux);
+}
+
+.nocturne {
+  margin: 0.5rem 0 0;
+  padding: 0.6rem 0.75rem;
+  border: 1px dashed var(--trait);
+  border-radius: 0.6rem;
+  font-size: 0.875rem;
+}
+
+/* ── Sillage */
+.sillage {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.jauge {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.jauge span {
+  width: 2.5rem;
+  height: 0.5rem;
+  border: 1px solid var(--trait);
+  border-radius: 0.25rem;
+}
+
+.jauge .plein {
+  background: var(--texte);
+  border-color: var(--texte);
+}
+
+/* ── Bouton principal */
+.vaporiser {
+  margin-top: auto; /* repousse le bouton en bas du panneau */
+  min-height: 3.25rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--texte);
+  color: var(--panneau);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Contour visible pour la navigation au clavier uniquement */
+.vaporiser:focus-visible,
+.fermer:focus-visible {
+  outline: 2px solid var(--texte);
+  outline-offset: 3px;
+}

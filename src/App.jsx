@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { useParfums } from './hooks/useParfums'
 import { Boutique } from './components/scene/Boutique'
+import { FicheParfum } from './components/ui/FicheParfum'
 
 export default function App() {
   const { parfums } = useParfums()
@@ -21,6 +22,8 @@ export default function App() {
           onSelect={setSelectionId}
         />
         <OrbitControls
+          // Mode consultation : la vue est figée tant qu'une fiche est ouverte
+          enabled={!selectionId}
           target={[0, 1.6, 0]}
           enableZoom={false}
           enablePan={false}
@@ -31,16 +34,12 @@ export default function App() {
       {/* PROVISOIRE : sert seulement à vérifier la sélection.
           Sera remplacé par la vraie fiche parfum, d'après le wireframe. */}
       {parfumSelectionne && (
-        <pre
-          style={{
-            position: 'fixed', bottom: 16, left: 16, margin: 0,
-            padding: 12, background: '#fff', color: '#000', fontSize: 12,
-          }}
-        >
-          {parfumSelectionne.nom}
-          {'\n'}
-          {JSON.stringify(parfumSelectionne.notes, null, 2)}
-        </pre>
+        <FicheParfum
+          parfum={parfumSelectionne}
+          onFermer={() => setSelectionId(null)}
+          // PROVISOIRE : l'effet visuel sera la prochaine étape
+          onVaporiser={() => console.log('pshit !', parfumSelectionne.id)}
+        />
       )}
     </>
   )

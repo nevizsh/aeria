@@ -1,3 +1,16 @@
+/* Couleurs et polices PROVISOIRES : elles seront remplacées par celles
+   de ta maquette Figma. Tout le projet les utilise, donc changer
+   l'identité visuelle ne demandera de toucher qu'à ce bloc. */
+:root {
+  --fond: #0e0b14;
+  --panneau: #17131f;
+  --texte: #f1eef6;
+  --texte-doux: #a9a2b8;
+  --trait: #3a3347;
+  --police: system-ui, sans-serif;
+  --police-mono: ui-monospace, monospace;
+}
+
 /* Le <Canvas> de R3F prend 100 % de la taille de son parent.
    Sans hauteur explicite sur la chaîne html → body → #root,
    le parent fait 0 px de haut et la scène est invisible. */
@@ -8,7 +21,8 @@ body,
   height: 100%;
 }
 
-/* Fond sombre provisoire, pour bien distinguer la scène */
 body {
-  background: #0e0b14;
+  background: var(--fond);
+  color: var(--texte);
+  font-family: var(--police);
 }
