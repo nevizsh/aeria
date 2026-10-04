@@ -1,29 +1,31 @@
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
+import { useParfums } from './hooks/useParfums'
+import { Boutique } from './components/scene/Boutique'
 
 export default function App() {
+  const { parfums } = useParfums()
+
   return (
-    // Canvas crée pour toi la scène, la caméra et le renderer Three.js.
-    // position : [x, y, z]. y = 1.6 correspond à peu près à la hauteur
-    // des yeux, ce qui préfigure la vue « debout dans la boutique ».
-    <Canvas camera={{ position: [0, 1.6, 5], fov: 60 }}>
-      {/* Lumière douce partout, sinon les zones non éclairées seraient noires */}
-      <ambientLight intensity={0.5} />
-      {/* Lumière directionnelle, qui donne du relief au volume */}
-      <directionalLight position={[3, 5, 2]} intensity={1} />
+    // Caméra au centre de la boutique, à hauteur des yeux.
+    // Le 0.01 en z est voulu (voir OrbitControls ci-dessous).
+    <Canvas camera={{ position: [0, 1.6, 0.01], fov: 60 }}>
+      {/* Lumière venant du ciel (blanc) et du sol (gris) : éclaire
+          uniformément tout autour, contrairement à une lumière directionnelle
+          qui laisserait certaines sections dans l'ombre. */}
+      <hemisphereLight args={['#ffffff', '#444444', 1.5]} />
 
-      {/* Un cylindre comme flacon provisoire */}
-      <mesh position={[0, 1, 0]}>
-        {/* args : rayon haut, rayon bas, hauteur, nombre de segments */}
-        <cylinderGeometry args={[0.4, 0.4, 1.2, 32]} />
-        {/* meshStandardMaterial réagit à la lumière, contrairement à meshBasicMaterial */}
-        <meshStandardMaterial color="mediumpurple" />
-      </mesh>
+      <Boutique parfums={parfums} />
 
-      {/* Permet de tourner autour de la scène à la souris.
-          Provisoire : on remplacera ça par une navigation adaptée
-          à la boutique (caméra au centre qui pivote vers les sections). */}
-      <OrbitControls />
+      {/* Astuce PROVISOIRE : en plaçant la caméra quasiment sur sa cible,
+          « tourner autour de la cible » revient à « regarder autour de soi ».
+          rotateSpeed négatif : glisser vers la droite fait regarder à droite. */}
+      <OrbitControls
+        target={[0, 1.6, 0]}
+        enableZoom={false}
+        enablePan={false}
+        rotateSpeed={-0.4}
+      />
     </Canvas>
   )
 }
