@@ -2,11 +2,9 @@ import { useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useCursor } from '@react-three/drei'
 import { BoxGeometry, MathUtils, MeshStandardMaterial, Vector3 } from 'three'
+import { pointVitrine } from './vitrine'
 
-const DISTANCE_VITRINE = 2
 const VITESSE = 6
-const LARGEUR_FICHE = 460
-const POINT_BASCULE = 768
 const SENSIBILITE = 0.01
 const INCLINAISON_MAX = 0.5
 
@@ -19,19 +17,6 @@ const MAT_BOUCHON = new MeshStandardMaterial({
 })
 
 const cible = new Vector3()
-const direction = new Vector3()
-
-function pointVitrine(camera, size, sortie) {
-  let x = 0
-  let y = 0
-  if (size.width > POINT_BASCULE) {
-    x = -LARGEUR_FICHE / size.width
-  } else {
-    y = 0.6
-  }
-  direction.set(x, y, 0.5).unproject(camera).sub(camera.position).normalize()
-  return sortie.copy(camera.position).addScaledVector(direction, DISTANCE_VITRINE)
-}
 
 export function Flacon({ parfum, position, estSelectionne, onSelect }) {
   const ref = useRef()
