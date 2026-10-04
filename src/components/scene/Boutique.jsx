@@ -14,7 +14,7 @@ function positionSurCercle(angleDeg) {
   return [RAYON * Math.sin(a), HAUTEUR, -RAYON * Math.cos(a)]
 }
 
-export function Boutique({ parfums }) {
+export function Boutique({ parfums, selectionId, onSelect }) {
   return (
     <>
       {CONTINENTS.map((continent) => {
@@ -30,9 +30,11 @@ export function Boutique({ parfums }) {
               const decalage = (i - (flacons.length - 1) / 2) * ECART_DEG
               return (
                 <Flacon
-                  key={parfum.id}
-                  parfum={parfum}
-                  position={positionSurCercle(continent.angle + decalage)}
+                    key={parfum.id}
+                    parfum={parfum}
+                    position={positionSurCercle(continent.angle + decalage)}
+                    estSelectionne={parfum.id === selectionId}
+                    onSelect={onSelect}
                 />
               )
             })}
