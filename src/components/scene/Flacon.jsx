@@ -1,42 +1,124 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { useFrame } from '@react-three/fiber'
 import { useCursor } from '@react-three/drei'
+import { BoxGeometry, MathUtils, MeshStandardMaterial, Vector3 } from 'three'
+
+const DISTANCE_VITRINE = 2
+const VITESSE = 6
+const LARGEUR_FICHE = 460
+const POINT_BASCULE = 768
+const SENSIBILITE = 0.01
+const INCLINAISON_MAX = 0.5
+
+const GEO_CORPS = new BoxGeometry(0.26, 0.3, 0.1)
+const GEO_BOUCHON = new BoxGeometry(0.09, 0.08, 0.09)
+const MAT_BOUCHON = new MeshStandardMaterial({
+  color: '#c9b37e',
+  metalness: 0.3,
+  roughness: 0.3,
+})
+
+const cible = new Vector3()
+const direction = new Vector3()
+
+function pointVitrine(camera, size, sortie) {
+  let x = 0
+  let y = 0
+  if (size.width > POINT_BASCULE) {
+    x = -LARGEUR_FICHE / size.width
+  } else {
+    y = 0.6
+  }
+  direction.set(x, y, 0.5).unproject(camera).sub(camera.position).normalize()
+  return sortie.copy(camera.position).addScaledVector(direction, DISTANCE_VITRINE)
+}
 
 export function Flacon({ parfum, position, estSelectionne, onSelect }) {
+  const ref = useRef()
+  const pivot = useRef()
+  const glissement = useRef(null)
   const [survole, setSurvole] = useState(false)
+  const [positionInitiale] = useState(position)
 
-  // drei change le curseur en "main" pendant le survol,
-  // comme sur un lien : l'utilisateur comprend que c'est cliquable.
-  useCursor(survole)
+  useCursor(survole, estSelectionne ? 'grab' : 'pointer')
+
+  useFrame((state, delta) => {
+    const t = 1 - Math.exp(-VITESSE * delta)
+
+    if (estSelectionne) {
+      pointVitrine(state.camera, state.size, cible)
+    } else {
+      cible.set(position[0], position[1], position[2])
+    }
+    ref.current.position.lerp(cible, t)
+
+    if (!estSelectionne) {
+      const r = pivot.current.rotation
+      r.y = MathUtils.euclideanModulo(r.y + Math.PI, Math.PI * 2) - Math.PI
+      r.y = MathUtils.lerp(r.y, 0, t)
+      r.x = MathUtils.lerp(r.x, 0, t)
+    }
+  })
+
+  function debutGlissement(e) {
+    if (!estSelectionne) return
+    e.stopPropagation()
+    e.target.setPointerCapture(e.pointerId)
+    const r = pivot.current.rotation
+    glissement.current = { x: e.clientX, y: e.clientY, ry: r.y, rx: r.x }
+  }
+
+  function pendantGlissement(e) {
+    const g = glissement.current
+    if (!g) return
+    const r = pivot.current.rotation
+    r.y = g.ry + (e.clientX - g.x) * SENSIBILITE
+    r.x = MathUtils.clamp(
+      g.rx + (e.clientY - g.y) * SENSIBILITE,
+      -INCLINAISON_MAX,
+      INCLINAISON_MAX,
+    )
+  }
+
+  function finGlissement(e) {
+    if (!glissement.current) return
+    glissement.current = null
+    e.target.releasePointerCapture(e.pointerId)
+  }
 
   const misEnValeur = survole || estSelectionne
 
   return (
-    <mesh
-      position={position}
+    <group
+      ref={ref}
+      position={positionInitiale}
       scale={misEnValeur ? 1.15 : 1}
       onPointerOver={(e) => {
-        // Le rayon de la souris peut traverser plusieurs objets alignés.
-        // stopPropagation : seul le flacon le plus proche réagit.
         e.stopPropagation()
         setSurvole(true)
       }}
       onPointerOut={() => setSurvole(false)}
       onClick={(e) => {
         e.stopPropagation()
-        // e.delta = distance (en pixels) parcourue entre l'appui et le relâchement.
-        // Au-delà de quelques pixels, l'utilisateur faisait glisser la vue
-        // pour regarder autour de lui : ce n'était pas un clic sur le flacon.
         if (e.delta > 5) return
         onSelect(parfum.id)
       }}
+      onPointerDown={debutGlissement}
+      onPointerMove={pendantGlissement}
+      onPointerUp={finGlissement}
+      onPointerCancel={finGlissement}
     >
-      <cylinderGeometry args={[0.15, 0.15, 0.4, 24]} />
-      <meshStandardMaterial
-        color={parfum.couleur}
-        // emissive : le matériau émet sa propre lumière, il « s'illumine »
-        emissive={parfum.couleur}
-        emissiveIntensity={misEnValeur ? 0.4 : 0}
-      />
-    </mesh>
+      <group ref={pivot}>
+        <mesh geometry={GEO_CORPS}>
+          <meshStandardMaterial
+            color={parfum.couleur}
+            emissive={parfum.couleur}
+            emissiveIntensity={misEnValeur ? 0.4 : 0}
+            roughness={0.25}
+          />
+        </mesh>
+        <mesh geometry={GEO_BOUCHON} material={MAT_BOUCHON} position={[0, 0.19, 0]} />
+      </group>
+    </group>
   )
 }
