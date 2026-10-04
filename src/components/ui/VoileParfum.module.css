@@ -1,0 +1,60 @@
+.voile {
+  position: fixed;
+  top: 50%;
+  left: calc((100% - var(--largeur-fiche)) / 2);
+  width: 60vmax;
+  height: 60vmax;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    var(--couleur) 0%,
+    var(--couleur) 45%,
+    transparent 100%
+  );
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: deploiement var(--duree) ease-out forwards;
+}
+
+@media (max-width: 768px) {
+  .voile {
+    top: 20%;
+    left: 50%;
+  }
+}
+
+@keyframes deploiement {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.75;
+  }
+  60% {
+    transform: translate(-50%, -50%) scale(5);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(5.5);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .voile {
+    transform: translate(-50%, -50%) scale(5);
+    animation-name: fondu;
+  }
+}
+
+@keyframes fondu {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.5;
+  }
+}

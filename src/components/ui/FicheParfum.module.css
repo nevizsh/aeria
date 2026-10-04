@@ -4,7 +4,7 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: min(460px, 100%);
+  width: min(var(--largeur-fiche), 100%);
   box-sizing: border-box;
   padding: 2rem;
   overflow-y: auto; /* si l'écran est petit, la fiche défile au lieu d'être coupée */
@@ -36,6 +36,10 @@
     border-top: 1px solid var(--trait);
     border-radius: 1.25rem 1.25rem 0 0;
     animation-name: entree-bas;
+    transition: transform 0.4s ease;
+  }
+  .retrait {
+    transform: translateY(calc(100% - 5.5rem));
   }
   .titre { font-size: 2rem; }
 }
@@ -46,7 +50,10 @@
 
 /* Respecte le réglage système « réduire les animations » */
 @media (prefers-reduced-motion: reduce) {
-  .fiche { animation: none; }
+  .fiche {
+    animation: none;
+    transition: none;
+  }
 }
 
 /* ── En-tête */
@@ -201,4 +208,9 @@
 .fermer:focus-visible {
   outline: 2px solid var(--texte);
   outline-offset: 3px;
+}
+
+.vaporiser:disabled {
+  opacity: 0.5;
+  cursor: default;
 }

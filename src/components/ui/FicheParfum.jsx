@@ -5,7 +5,7 @@ import styles from './FicheParfum.module.css'
 // Nombre de segments remplis dans la jauge de sillage
 const NIVEAUX_SILLAGE = { 'léger': 1, 'moyen': 2, 'fort': 3 }
 
-export function FicheParfum({ parfum, onFermer, onVaporiser }) {
+export function FicheParfum({ parfum, onFermer, onVaporiser, vaporisationEnCours }) {
   // La touche Échap ferme la fiche : réflexe attendu pour tout panneau superposé.
   useEffect(() => {
     const surTouche = (e) => {
@@ -45,7 +45,10 @@ export function FicheParfum({ parfum, onFermer, onVaporiser }) {
 
   return (
     // aside + aria-labelledby : un lecteur d'écran annonce « Nouméa, complémentaire »
-    <aside className={styles.fiche} aria-labelledby="fiche-titre">
+    <aside
+      className={`${styles.fiche} ${vaporisationEnCours ? styles.retrait : ''}`}
+      aria-labelledby="fiche-titre"
+    >
       <header className={styles.entete}>
         <div>
           <p className={styles.surtitre}>
@@ -118,9 +121,14 @@ export function FicheParfum({ parfum, onFermer, onVaporiser }) {
         </div>
       </section>
 
-      <button type="button" className={styles.vaporiser} onClick={onVaporiser}>
-        Vaporiser
-      </button>
+        <button
+            type="button"
+            className={styles.vaporiser}
+            onClick={onVaporiser}
+            disabled={vaporisationEnCours}
+        >
+            Vaporiser
+        </button>
     </aside>
   )
 }
