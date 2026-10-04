@@ -9,6 +9,7 @@
   --trait: #3a3347;
   --police: system-ui, sans-serif;
   --police-mono: ui-monospace, monospace;
+  --largeur-fiche: 460px;
 }
 
 /* Le <Canvas> de R3F prend 100 % de la taille de son parent.
