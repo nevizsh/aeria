@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Brume, dureeJet } from './components/scene/Brume'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
@@ -56,11 +56,13 @@ export default function App() {
       <Canvas camera={{ position: [0, 1.6, 0.01], fov: 60 }}>
         <hemisphereLight args={['#ffffff', '#444444', 1.5]} />
         <AjustementCamera />
-        <Boutique
-          parfums={parfums}
-          selectionId={selectionId}
-          onSelect={setSelectionId}
-        />
+        <Suspense fallback={null}>
+          <Boutique
+            parfums={parfums}
+            selectionId={selectionId}
+            onSelect={setSelectionId}
+          />
+        </Suspense>
         <Brume jet={jet} />
         <NavigationCamera
           demande={navigation}

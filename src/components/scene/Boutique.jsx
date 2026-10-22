@@ -2,6 +2,7 @@ import { MathUtils } from 'three'
 import { CONTINENTS } from '../../data/continents'
 import { Flacon } from './Flacon'
 import { Etagere } from './Etagere'
+import { useModelesFlacons } from './modele'
 
 const RAYON = 6        // distance entre la caméra (au centre) et les étagères
 const ECART_DEG = 8    // écart angulaire entre deux flacons d'une même section
@@ -16,6 +17,7 @@ function positionSurCercle(angleDeg) {
 }
 
 export function Boutique({ parfums, selectionId, onSelect }) {
+  const modeles = useModelesFlacons()
   return (
     <>
       {CONTINENTS.map((continent) => {
@@ -37,6 +39,7 @@ export function Boutique({ parfums, selectionId, onSelect }) {
                     position={positionSurCercle(continent.angle + decalage)}
                     estSelectionne={parfum.id === selectionId}
                     onSelect={onSelect}
+                    pieces={modeles[continent.id]}
                 />
               )
             })}
