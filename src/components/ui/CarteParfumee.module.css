@@ -57,12 +57,8 @@
 }
 
 .pastille {
-  width: 0.6rem;
-  height: 0.6rem;
+  composes: losange from './ornements.module.css';
   margin-top: 0.4rem;
-  background: var(--couleur);
-  border: 1px solid var(--laiton);
-  transform: rotate(45deg);
 }
 
 .surtitre {
@@ -82,40 +78,8 @@
 }
 
 .separateur {
-  position: relative;
+  composes: separateur from './ornements.module.css';
   align-self: stretch;
-  flex-shrink: 0;
-  height: 0.75rem;
-  background: linear-gradient(
-      to right,
-      transparent,
-      var(--laiton) 40%,
-      transparent 40% 60%,
-      var(--laiton) 60%,
-      transparent
-    )
-    center / 100% 1px no-repeat;
-}
-
-.separateur::before,
-.separateur::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.separateur::before {
-  width: 0.5rem;
-  height: 0.5rem;
-  border: 1px solid var(--laiton);
-}
-
-.separateur::after {
-  width: 0.2rem;
-  height: 0.2rem;
-  background: var(--laiton);
 }
 
 .texte {
