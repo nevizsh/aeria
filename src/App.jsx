@@ -6,6 +6,8 @@ import { Canvas } from '@react-three/fiber'
 import { NeutralToneMapping } from 'three'
 import { Environment, Lightformer, OrbitControls } from '@react-three/drei'
 import { useParfums } from './hooks/useParfums'
+import { useSonCoupe } from './hooks/useSonCoupe'
+import { basculerSon, demarrer, jouer } from './services/son'
 import { Boutique } from './components/scene/Boutique'
 import { FicheParfum } from './components/ui/FicheParfum'
 import { NavigationCamera } from './components/scene/NavigationCamera'
@@ -19,6 +21,7 @@ import { FlaconAccueil } from './components/scene/FlaconAccueil'
 export default function App() {
   const { parfums, source } = useParfums()
   const [selectionId, setSelectionId] = useState(null)
+  const sonCoupe = useSonCoupe()
 
   // On retrouve l'objet à jour à partir de l'id (voir plus haut).
   const parfumSelectionne = parfums.find((p) => p.id === selectionId)
@@ -58,6 +61,17 @@ export default function App() {
       carte: { ville: parfumSelectionne.nom, couleur: parfumSelectionne.couleur, phrases },
     })
     setVaporisationEnCours(true)
+    jouer('pshit')
+  }
+
+  function choisirFlacon(id) {
+    if (id !== selectionId) jouer('whoosh')
+    setSelectionId(id)
+  }
+
+  function entrer() {
+    demarrer()
+    setEtape('fondu-entrant')
   }
 
   function fermerCarte() {
@@ -91,7 +105,7 @@ export default function App() {
             <Boutique
               parfums={parfums}
               selectionId={selectionId}
-              onSelect={setSelectionId}
+              onSelect={choisirFlacon}
               vaporisation={vaporisationEnCours}
             />
           </group>
@@ -117,6 +131,8 @@ export default function App() {
           sectionId={sectionVisible}
           source={source}
           onAller={(continentId) => setNavigation({ continentId })}
+          sonCoupe={sonCoupe}
+          onBasculerSon={basculerSon}
         />
       )}
       
@@ -133,7 +149,7 @@ export default function App() {
 
       {carte && <CarteParfumee carte={carte} onFermer={fermerCarte} />}
 
-      {surAccueil && <Accueil parfums={parfums} onEntrer={() => setEtape('fondu-entrant')} />}
+      {surAccueil && <Accueil parfums={parfums} onEntrer={entrer} />}
 
       {(etape === 'fondu-entrant' || etape === 'fondu-sortant') && (
         <FonduBlanc

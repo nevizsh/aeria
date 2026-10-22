@@ -31,6 +31,42 @@
   font-size: 0.8rem;
 }
 
+.reglages {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.son {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid var(--trait);
+  border-radius: 50%;
+  background: var(--panneau);
+  color: var(--texte);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.son svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.son:focus-visible {
+  outline: 2px solid var(--texte);
+  outline-offset: 2px;
+}
+
 .titre {
   margin-top: 1rem;
   text-align: center;
