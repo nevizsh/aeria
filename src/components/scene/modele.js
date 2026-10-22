@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 import { useGLTF } from '@react-three/drei'
-import { Box3, Matrix4, Vector3 } from 'three'
+import { Box3, DoubleSide, Matrix4, Vector3 } from 'three'
 
 const CHEMIN = '/modeles/flacons.glb'
-const HAUTEUR_FLACON = 0.3
+export const HAUTEUR_FLACON = 0.45
 
 const FLACON_PAR_CONTINENT = {
   europe: 1,
@@ -13,7 +13,18 @@ const FLACON_PAR_CONTINENT = {
   ameriques: 5,
 }
 
-function preparerFlacon(nodes, numero) {
+function preparerVerre(materiau) {
+  const verre = materiau.clone()
+  verre.transparent = true
+  verre.depthWrite = false
+  verre.side = DoubleSide
+  verre.roughness = 0.05
+  verre.metalness = 0.1
+  verre.envMapIntensity = 2
+  return verre
+}
+
+function preparerFlacon(nodes, numero, verre) {
   const pieces = Object.values(nodes).filter(
     (n) => n.isMesh && n.name.startsWith(`Perfume_${numero}_`),
   )
@@ -35,25 +46,26 @@ function preparerFlacon(nodes, numero) {
 
   geometries.forEach((g) => g.applyMatrix4(normalisation))
 
-  return pieces.map((p, i) => ({
+    return pieces.map((p, i) => ({
     geometry: geometries[i],
-    material: p.material,
+    material: p.material.name === 'Material' ? verre : p.material,
     estLiquide: p.name.includes('Liquido'),
   }))
 }
 
 export function useModelesFlacons() {
-  const { scene, nodes } = useGLTF(CHEMIN)
+  const { scene, nodes, materials } = useGLTF(CHEMIN)
 
   return useMemo(() => {
     scene.updateMatrixWorld(true)
+    const verre = preparerVerre(materials.Material)
     return Object.fromEntries(
       Object.entries(FLACON_PAR_CONTINENT).map(([continent, numero]) => [
         continent,
-        preparerFlacon(nodes, numero),
+        preparerFlacon(nodes, numero, verre),
       ]),
     )
-  }, [scene, nodes])
+  }, [scene, nodes, materials])
 }
 
 useGLTF.preload(CHEMIN)

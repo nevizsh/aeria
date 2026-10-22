@@ -2,9 +2,10 @@ import { useEffect, useMemo, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { CanvasTexture, Vector3 } from 'three'
 import { pointVitrine } from './vitrine'
+import { HAUTEUR_FLACON } from './modele'
 
 const NB_PARTICULES = 400
-const HAUTEUR_BUSE = 0.18
+const HAUTEUR_BUSE = HAUTEUR_FLACON * 0.6
 
 const origine = new Vector3()
 const versCamera = new Vector3()
