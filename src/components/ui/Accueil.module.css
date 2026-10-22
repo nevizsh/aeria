@@ -6,7 +6,7 @@
   flex-direction: column;
   justify-content: center;
   padding: 2rem 6rem;
-  background: rgba(14, 11, 20, 0.82);
+  background: var(--voile-accueil);
   color: var(--texte);
 }
 

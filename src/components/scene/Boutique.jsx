@@ -2,9 +2,10 @@ import { MathUtils } from 'three'
 import { CONTINENTS } from '../../data/continents'
 import { Flacon } from './Flacon'
 import { Etagere } from './Etagere'
+import { useModelesFlacons, HAUTEUR_FLACON } from './modele'
 
 const RAYON = 6        // distance entre la caméra (au centre) et les étagères
-const ECART_DEG = 8    // écart angulaire entre deux flacons d'une même section
+const ECART_DEG = 10    // écart angulaire entre deux flacons d'une même section
 const HAUTEUR = 1.4    // un peu sous le niveau des yeux (1.6)
 
 // Convertit un angle du plan au sol (0° = devant, positif = à droite)
@@ -16,8 +17,13 @@ function positionSurCercle(angleDeg) {
 }
 
 export function Boutique({ parfums, selectionId, onSelect }) {
+  const modeles = useModelesFlacons()
   return (
     <>
+      <mesh rotation-x={-Math.PI / 2}>
+        <circleGeometry args={[8, 48]} />
+        <meshStandardMaterial color="#e9e0d2" roughness={0.85} />
+      </mesh>
       {CONTINENTS.map((continent) => {
         const flacons = parfums.filter((p) => p.continent === continent.id)
 
@@ -25,7 +31,12 @@ export function Boutique({ parfums, selectionId, onSelect }) {
           // Un group par section : on pourra plus tard le déplacer,
           // le mettre en surbrillance ou lui ajouter une étagère d'un bloc.
           <group key={continent.id}>
-            <Etagere angle={continent.angle} rayon={RAYON} hauteurFlacons={HAUTEUR} />
+            <Etagere
+              angle={continent.angle}
+              rayon={RAYON}
+              hauteurFlacons={HAUTEUR}
+              basFlacons={HAUTEUR - HAUTEUR_FLACON / 2}
+            />
             {flacons.map((parfum, i) => {
               // Centre les flacons autour de l'angle de la section,
               // quel que soit leur nombre : pour 5 flacons → -16°, -8°, 0°, 8°, 16°
@@ -37,6 +48,7 @@ export function Boutique({ parfums, selectionId, onSelect }) {
                     position={positionSurCercle(continent.angle + decalage)}
                     estSelectionne={parfum.id === selectionId}
                     onSelect={onSelect}
+                    pieces={modeles[continent.id]}
                 />
               )
             })}
