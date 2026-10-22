@@ -14,6 +14,7 @@ import { Accueil } from './components/ui/Accueil'
 import { FonduBlanc } from './components/ui/FonduBlanc'
 import { AjustementCamera } from './components/scene/AjustementCamera'
 import { LumiereVitrine } from './components/scene/LumiereVitrine'
+import { FlaconAccueil } from './components/scene/FlaconAccueil'
 
 export default function App() {
   const { parfums, source } = useParfums()
@@ -32,6 +33,7 @@ export default function App() {
 
   const [etape, setEtape] = useState('accueil')
   const surAccueil = etape === 'accueil' || etape === 'fondu-entrant'
+  const flaconAccueil = parfums.find((p) => p.id === 'noumea')
   const enBoutique = etape === 'fondu-sortant' || etape === 'boutique'
 
   function finDuFondu() {
@@ -85,12 +87,15 @@ export default function App() {
         <fog attach="fog" args={['#f4ede2', 9, 20]} />
         <AjustementCamera />
         <Suspense fallback={null}>
-          <Boutique
-            parfums={parfums}
-            selectionId={selectionId}
-            onSelect={setSelectionId}
-            vaporisation={vaporisationEnCours}
-          />
+          <group visible={enBoutique}>
+            <Boutique
+              parfums={parfums}
+              selectionId={selectionId}
+              onSelect={setSelectionId}
+              vaporisation={vaporisationEnCours}
+            />
+          </group>
+          {surAccueil && flaconAccueil && <FlaconAccueil parfum={flaconAccueil} />}
         </Suspense>
         <Brume jet={jet} />
         <NavigationCamera
@@ -128,7 +133,7 @@ export default function App() {
 
       {carte && <CarteParfumee carte={carte} onFermer={fermerCarte} />}
 
-      {surAccueil && <Accueil onEntrer={() => setEtape('fondu-entrant')} />}
+      {surAccueil && <Accueil parfums={parfums} onEntrer={() => setEtape('fondu-entrant')} />}
 
       {(etape === 'fondu-entrant' || etape === 'fondu-sortant') && (
         <FonduBlanc
