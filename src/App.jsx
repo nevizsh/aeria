@@ -8,6 +8,8 @@ import { FicheParfum } from './components/ui/FicheParfum'
 import { VoileParfum } from './components/ui/VoileParfum'
 import { NavigationCamera } from './components/scene/NavigationCamera'
 import { Hud } from './components/ui/Hud'
+import { Accueil } from './components/ui/Accueil'
+import { FonduBlanc } from './components/ui/FonduBlanc'
 
 export default function App() {
   const { parfums, source } = useParfums()
@@ -20,6 +22,14 @@ export default function App() {
 
   const [sectionVisible, setSectionVisible] = useState('oceanie')
   const [navigation, setNavigation] = useState(null)
+
+  const [etape, setEtape] = useState('accueil')
+  const surAccueil = etape === 'accueil' || etape === 'fondu-entrant'
+  const enBoutique = etape === 'fondu-sortant' || etape === 'boutique'
+
+  function finDuFondu() {
+    setEtape(etape === 'fondu-entrant' ? 'fondu-sortant' : 'boutique')
+  }
 
   useEffect(() => {
     if (!vaporisationEnCours) return
@@ -57,14 +67,14 @@ export default function App() {
         <OrbitControls
           // Mode consultation : la vue est figée tant qu'une fiche est ouverte
           makeDefault
-          enabled={!selectionId}
+          enabled={enBoutique && !selectionId}
           target={[0, 1.6, 0]}
           enableZoom={false}
           enablePan={false}
           rotateSpeed={-0.4}
         />
       </Canvas>
-      {!parfumSelectionne && (
+      {enBoutique && !parfumSelectionne && (
         <Hud
           sectionId={sectionVisible}
           source={source}
@@ -83,6 +93,15 @@ export default function App() {
 
       {vaporisationEnCours && (
         <VoileParfum couleur={jet.couleur} duree={dureeJet(jet.sillage)} />
+      )}
+
+            {surAccueil && <Accueil onEntrer={() => setEtape('fondu-entrant')} />}
+
+      {(etape === 'fondu-entrant' || etape === 'fondu-sortant') && (
+        <FonduBlanc
+          phase={etape === 'fondu-entrant' ? 'entrant' : 'sortant'}
+          onFin={finDuFondu}
+        />
       )}
     </>
   )
