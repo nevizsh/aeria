@@ -1,7 +1,7 @@
 // Règles de composition d'Aeria.
 // Ce fichier ne contient QUE des données : pour changer une note
 // ou un seuil, on le modifie ici, jamais dans la logique.
-// Spécification correspondante : docs/composition-des-parfums.md
+// Spécification correspondante : docs/composition-parfums.md
 
 // ── Note de tête ← type de temps (codes WMO renvoyés par Open-Meteo)
 export const NOTES_TETE = [
