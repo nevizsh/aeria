@@ -1,0 +1,164 @@
+.hud {
+  position: fixed;
+  inset: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 2rem 2rem;
+  color: var(--texte);
+  pointer-events: none;
+}
+
+.haut {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+}
+
+.source {
+  margin: 0;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--trait);
+  border-radius: 999px;
+  background: var(--panneau);
+  color: var(--texte-doux);
+  font-size: 0.8rem;
+}
+
+.titre {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.compteur {
+  margin: 0;
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--texte-doux);
+}
+
+.nom {
+  margin: 0.25rem 0 0;
+  font-size: 3rem;
+  font-weight: 500;
+}
+
+.bas {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.aide {
+  margin: 0;
+  color: var(--texte-doux);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem;
+  border: 1px solid var(--trait);
+  border-radius: 999px;
+  background: var(--panneau);
+  pointer-events: auto;
+}
+
+.sections {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.section,
+.fleche {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--texte);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.fleche {
+  padding: 0;
+  font-size: 1.4rem;
+}
+
+.section[aria-current='true'] {
+  background: var(--texte);
+  color: var(--panneau);
+}
+
+.section:focus-visible,
+.fleche:focus-visible {
+  outline: 2px solid var(--texte);
+  outline-offset: 2px;
+}
+
+.point {
+  display: none;
+  width: 0.6rem;
+  height: 0.6rem;
+  border: 1px solid var(--texte);
+  border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+  .hud {
+    padding: 1rem 1rem 1.5rem;
+  }
+
+  .nom {
+    font-size: 2.25rem;
+  }
+
+  .libelle {
+    display: none;
+  }
+
+  .point {
+    display: block;
+  }
+
+  .section {
+    padding: 0;
+  }
+
+  .section[aria-current='true'] {
+    background: transparent;
+  }
+
+  .section[aria-current='true'] .point {
+    width: 0.8rem;
+    height: 0.8rem;
+    background: var(--texte);
+  }
+
+  .navigation {
+    align-self: stretch;
+    justify-content: space-between;
+  }
+}
