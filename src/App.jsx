@@ -1,122 +1,72 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react'
+import { Brume, dureeJet } from './components/scene/Brume'
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
+import { useParfums } from './hooks/useParfums'
+import { Boutique } from './components/scene/Boutique'
+import { FicheParfum } from './components/ui/FicheParfum'
+import { VoileParfum } from './components/ui/VoileParfum'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const { parfums } = useParfums()
+  const [selectionId, setSelectionId] = useState(null)
+
+  // On retrouve l'objet à jour à partir de l'id (voir plus haut).
+  const parfumSelectionne = parfums.find((p) => p.id === selectionId)
+    const [jet, setJet] = useState(null)
+  const [vaporisationEnCours, setVaporisationEnCours] = useState(false)
+
+  useEffect(() => {
+    if (!vaporisationEnCours) return
+    const minuteur = setTimeout(
+      () => setVaporisationEnCours(false),
+      dureeJet(jet.sillage) * 1000,
+    )
+    return () => clearTimeout(minuteur)
+  }, [vaporisationEnCours, jet])
+
+  function vaporiser() {
+    setJet({ couleur: parfumSelectionne.couleur, sillage: parfumSelectionne.sillage })
+    setVaporisationEnCours(true)
+  }
+
+  function fermerFiche() {
+    setSelectionId(null)
+    setVaporisationEnCours(false)
+  }
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      <Canvas camera={{ position: [0, 1.6, 0.01], fov: 60 }}>
+        <hemisphereLight args={['#ffffff', '#444444', 1.5]} />
+        <Boutique
+          parfums={parfums}
+          selectionId={selectionId}
+          onSelect={setSelectionId}
+        />
+        <Brume jet={jet} />
+        <OrbitControls
+          // Mode consultation : la vue est figée tant qu'une fiche est ouverte
+          enabled={!selectionId}
+          target={[0, 1.6, 0]}
+          enableZoom={false}
+          enablePan={false}
+          rotateSpeed={-0.4}
+        />
+      </Canvas>
 
-      <div className="ticks"></div>
+      {parfumSelectionne && (
+        <FicheParfum
+          parfum={parfumSelectionne}
+          onFermer={fermerFiche}
+          onVaporiser={vaporiser}
+          vaporisationEnCours={vaporisationEnCours}
+        />
+      )}
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      {vaporisationEnCours && (
+        <VoileParfum couleur={jet.couleur} duree={dureeJet(jet.sillage)} />
+      )}
     </>
   )
 }
-
-export default App
