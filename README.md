@@ -94,3 +94,4 @@ Tous les documents sont dans [`docs/`](docs/) :
 ## Crédits
 
 Données météo : [Open-Meteo](https://open-meteo.com/), sous licence CC BY 4.0.
+Modèles 3D des flacons : « Perfumes Bottles Pack - Low Poly » par [JiggleSticks](https://sketchfab.com/JiggleSticks), sous licence [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/) ([source](https://sketchfab.com/3d-models/perfumes-bottles-pack-low-poly-655e262f3d2c41fbb7de78b348585b08)).

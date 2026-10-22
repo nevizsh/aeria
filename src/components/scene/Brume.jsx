@@ -4,7 +4,7 @@ import { CanvasTexture, Vector3 } from 'three'
 import { pointVitrine } from './vitrine'
 
 const NB_PARTICULES = 400
-const HAUTEUR_BUSE = 0.27
+const HAUTEUR_BUSE = 0.18
 
 const origine = new Vector3()
 const versCamera = new Vector3()
