@@ -2,11 +2,12 @@
    de ta maquette Figma. Tout le projet les utilise, donc changer
    l'identité visuelle ne demandera de toucher qu'à ce bloc. */
 :root {
-  --fond: #0e0b14;
-  --panneau: #17131f;
-  --texte: #f1eef6;
-  --texte-doux: #a9a2b8;
-  --trait: #3a3347;
+  --fond: #f4ede2;
+  --panneau: #fbf7f0;
+  --texte: #2b2330;
+  --texte-doux: #5e5462;
+  --trait: #d9cfc0;
+  --voile-accueil: rgba(244, 237, 226, 0.85);
   --police: system-ui, sans-serif;
   --police-mono: ui-monospace, monospace;
   --largeur-fiche: 460px;
