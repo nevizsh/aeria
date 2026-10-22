@@ -89,8 +89,7 @@ Tous les documents sont dans [`docs/`](docs/) :
 - plan au sol de la boutique, arborescence et schéma d'intégration des données ;
 - [wireframes](docs/aeria-wireframes.pdf) desktop et mobile ;
 - planning ;
-- [règles de composition des parfums](docs/composition-parfums.md) ;
-- [candidats v2](docs/candidats-v2.md) : les idées écartées pour tenir le périmètre.
+- [règles de composition des parfums](docs/composition-parfums.md).
 
 ## Crédits
 
