@@ -26,6 +26,7 @@ Les règles complètes sont décrites dans [`docs/composition-parfums.md`](docs/
 - Fiche parfum en carte papier : la météo en direct racontée en une phrase, la pyramide olfactive avec la donnée qui explique chaque note, et le sillage.
 - Bouton « Vaporiser » : le flacon se redresse, une fine bruine sort du bouchon dans un halo à la couleur du parfum, puis une carte parfumée raconte la ville en quelques phrases, différentes à chaque vaporisation.
 - Interface responsive : carte flottante sur ordinateur, panneau montant du bas sur mobile ; le flacon reste visible dans les deux cas.
+- Musique d'ambiance et bruitages (clic, passage en vitrine, vaporisation), lancés à l'entrée dans la boutique, avec un bouton pour couper le son dont le choix est mémorisé.
 - Repli automatique sur une météo de secours si l'API est indisponible.
 - HUD et menu des 5 continents : la caméra pivote vers la section choisie, et le nom affiché suit le regard.
 
@@ -94,5 +95,14 @@ Tous les documents sont dans [`docs/`](docs/) :
 ## Crédits
 
 Données météo : [Open-Meteo](https://open-meteo.com/), sous licence CC BY 4.0.
+
+Sons, tous sous licence [CC0](https://creativecommons.org/publicdomain/zero/1.0/), convertis en MP3 mono pour le web :
+
+- musique : « [Ambient Relaxing Loop](https://opengameart.org/content/ambient-relaxing-loop) » par isaiah658 ;
+- clic : « glass_005 » du pack « [Interface Sounds](https://kenney.nl/assets/interface-sounds) » par Kenney ;
+- passage d'un flacon en vitrine : extrait de « [Air whoosh](https://opengameart.org/content/air-whoosh) » par pyranostudios ;
+- vaporisation : « Nasal_Spray » du pack « [202 More Sound Effects](https://opengameart.org/content/202-more-sound-effects) » par OwlishMedia.
+
 Polices : [WindSong](https://fonts.google.com/specimen/WindSong) et [Cormorant Garamond](https://fonts.google.com/specimen/Cormorant+Garamond), sous licence SIL Open Font License 1.1.
+
 Modèles 3D des flacons : « Perfumes Bottles Pack - Low Poly » par [JiggleSticks](https://sketchfab.com/JiggleSticks), sous licence [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/) ([source](https://sketchfab.com/3d-models/perfumes-bottles-pack-low-poly-655e262f3d2c41fbb7de78b348585b08)).
