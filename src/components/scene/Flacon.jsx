@@ -1,17 +1,28 @@
 import { useEffect, useRef, useState } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useCursor } from '@react-three/drei'
-import { MathUtils, Vector3 } from 'three'
+import { Quaternion, Vector3 } from 'three'
 import { pointVitrine } from './vitrine'
 
 const VITESSE = 6
 const SENSIBILITE = 0.012
-const INCLINAISON_MAX = 1.2
 const FREIN_INERTIE = 3
 const ROTATION_LIBRE = 0.3
 const DELAI_ARRET = 80
 
 const cible = new Vector3()
+const AXE_LOCAL = new Vector3(0, 1, 0)
+const HAUT = new Vector3()
+const DROITE = new Vector3()
+const pas = new Quaternion()
+const DROIT = new Quaternion()
+
+function tourner(quaternion, camera, horizontal, vertical) {
+  HAUT.set(0, 1, 0).applyQuaternion(camera.quaternion)
+  DROITE.set(1, 0, 0).applyQuaternion(camera.quaternion)
+  quaternion.premultiply(pas.setFromAxisAngle(HAUT, horizontal))
+  quaternion.premultiply(pas.setFromAxisAngle(DROITE, vertical))
+}
 
 export function Flacon({ parfum, pieces, position, estSelectionne, onSelect }) {
   const ref = useRef()
@@ -21,6 +32,7 @@ export function Flacon({ parfum, pieces, position, estSelectionne, onSelect }) {
   const [survole, setSurvole] = useState(false)
   const [positionInitiale] = useState(position)
   const canvas = useThree((etat) => etat.gl.domElement)
+  const camera = useThree((etat) => etat.camera)
 
   useCursor(survole && !estSelectionne)
 
@@ -39,9 +51,7 @@ export function Flacon({ parfum, pieces, position, estSelectionne, onSelect }) {
       if (!g) return
       const dx = (e.clientX - g.x) * SENSIBILITE
       const dy = (e.clientY - g.y) * SENSIBILITE
-      const r = pivot.current.rotation
-      r.y += dx
-      r.x = MathUtils.clamp(r.x + dy, -INCLINAISON_MAX, INCLINAISON_MAX)
+      tourner(pivot.current.quaternion, camera, dx, dy)
       elan.current = { x: dy, y: dx }
       glissement.current = { x: e.clientX, y: e.clientY, temps: performance.now() }
     }
@@ -73,7 +83,7 @@ export function Flacon({ parfum, pieces, position, estSelectionne, onSelect }) {
       canvas.style.cursor = ''
       glissement.current = null
     }
-  }, [estSelectionne, canvas])
+  }, [estSelectionne, canvas, camera])
 
   useFrame((state, delta) => {
     const t = 1 - Math.exp(-VITESSE * delta)
@@ -85,23 +95,20 @@ export function Flacon({ parfum, pieces, position, estSelectionne, onSelect }) {
     }
     ref.current.position.lerp(cible, t)
 
-    const r = pivot.current.rotation
+    const q = pivot.current.quaternion
 
     if (estSelectionne) {
       if (!glissement.current) {
         const amorti = Math.exp(-FREIN_INERTIE * delta)
         elan.current.x *= amorti
         elan.current.y *= amorti
-        r.y += elan.current.y * delta * 60 + ROTATION_LIBRE * delta
-        r.x = MathUtils.clamp(r.x + elan.current.x * delta * 60, -INCLINAISON_MAX, INCLINAISON_MAX)
-        r.x = MathUtils.lerp(r.x, 0, 1 - Math.exp(-1.5 * delta))
+        tourner(q, state.camera, elan.current.y * delta * 60, elan.current.x * delta * 60)
+        q.multiply(pas.setFromAxisAngle(AXE_LOCAL, ROTATION_LIBRE * delta))
       }
     } else {
       elan.current.x = 0
       elan.current.y = 0
-      r.y = MathUtils.euclideanModulo(r.y + Math.PI, Math.PI * 2) - Math.PI
-      r.y = MathUtils.lerp(r.y, 0, t)
-      r.x = MathUtils.lerp(r.x, 0, t)
+      q.slerp(DROIT, t)
     }
   })
 
