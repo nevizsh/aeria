@@ -19,6 +19,7 @@ Les règles complètes sont décrites dans [`docs/composition-des-parfums.md`](d
 
 ## Fonctionnalités
 
+- Page d'accueil, puis entrée dans la boutique par un fondu au blanc.
 - Boutique 3D vue depuis son centre : on regarde autour de soi en faisant glisser la vue.
 - Survol et sélection d'un flacon : il vient se présenter face à l'utilisateur.
 - Rotation du flacon présenté, à la souris ou au doigt.
