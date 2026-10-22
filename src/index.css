@@ -3,11 +3,13 @@
    l'identité visuelle ne demandera de toucher qu'à ce bloc. */
 :root {
   --fond: #f4ede2;
+  --fond-profond: #d9cdbb;
   --panneau: #fbf7f0;
   --texte: #2b2330;
   --texte-doux: #5e5462;
   --trait: #d9cfc0;
-  --voile-accueil: rgba(244, 237, 226, 0.85);
+  --voile-accueil: rgba(244, 237, 226, 0.94);
+  --voile-accueil-leger: rgba(244, 237, 226, 0.15);
   --papier: #fbf6ec;
   --encre: #2b2330;
   --encre-douce: #5e5462;

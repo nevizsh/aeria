@@ -19,7 +19,7 @@ Les règles complètes sont décrites dans [`docs/composition-parfums.md`](docs/
 
 ## Fonctionnalités
 
-- Page d'accueil, puis entrée dans la boutique par un fondu au blanc.
+- Page d'accueil avec le flacon de Nouméa en rotation lente, une ligne « En ce moment » tirée de la météo réelle et les trois étapes de la visite, puis entrée dans la boutique par un fondu au blanc.
 - Boutique 3D vue depuis son centre : on regarde autour de soi en faisant glisser la vue.
 - Survol et sélection d'un flacon : il vient se présenter face à l'utilisateur.
 - Rotation du flacon présenté, à la souris ou au doigt.

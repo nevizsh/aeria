@@ -11,7 +11,7 @@ function empreinte(texte) {
   return h
 }
 
-function lieux(parfum) {
+export function lieux(parfum) {
   const exception = LIEUX[parfum.id]
   return {
     ville: parfum.nom,
