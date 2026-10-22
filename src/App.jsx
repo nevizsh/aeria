@@ -6,15 +6,20 @@ import { useParfums } from './hooks/useParfums'
 import { Boutique } from './components/scene/Boutique'
 import { FicheParfum } from './components/ui/FicheParfum'
 import { VoileParfum } from './components/ui/VoileParfum'
+import { NavigationCamera } from './components/scene/NavigationCamera'
+import { Hud } from './components/ui/Hud'
 
 export default function App() {
-  const { parfums } = useParfums()
+  const { parfums, source } = useParfums()
   const [selectionId, setSelectionId] = useState(null)
 
   // On retrouve l'objet à jour à partir de l'id (voir plus haut).
   const parfumSelectionne = parfums.find((p) => p.id === selectionId)
-    const [jet, setJet] = useState(null)
+  const [jet, setJet] = useState(null)
   const [vaporisationEnCours, setVaporisationEnCours] = useState(false)
+
+  const [sectionVisible, setSectionVisible] = useState('oceanie')
+  const [navigation, setNavigation] = useState(null)
 
   useEffect(() => {
     if (!vaporisationEnCours) return
@@ -45,8 +50,13 @@ export default function App() {
           onSelect={setSelectionId}
         />
         <Brume jet={jet} />
+        <NavigationCamera
+          demande={navigation}
+          onSectionVisible={setSectionVisible}
+        />
         <OrbitControls
           // Mode consultation : la vue est figée tant qu'une fiche est ouverte
+          makeDefault
           enabled={!selectionId}
           target={[0, 1.6, 0]}
           enableZoom={false}
@@ -54,7 +64,14 @@ export default function App() {
           rotateSpeed={-0.4}
         />
       </Canvas>
-
+      {!parfumSelectionne && (
+        <Hud
+          sectionId={sectionVisible}
+          source={source}
+          onAller={(continentId) => setNavigation({ continentId })}
+        />
+      )}
+      
       {parfumSelectionne && (
         <FicheParfum
           parfum={parfumSelectionne}
