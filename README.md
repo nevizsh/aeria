@@ -26,6 +26,7 @@ Les règles complètes sont décrites dans [`docs/composition-des-parfums.md`](d
 - Bouton « Vaporiser » : brume de particules en 3D, puis voile coloré sur tout l'écran.
 - Interface responsive : panneau latéral sur ordinateur, panneau montant du bas sur mobile.
 - Repli automatique sur une météo de secours si l'API est indisponible.
+- HUD et menu des 5 continents : la caméra pivote vers la section choisie, et le nom affiché suit le regard.
 
 ## Stack technique
 
