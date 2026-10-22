@@ -24,7 +24,7 @@ Les règles complètes sont décrites dans [`docs/composition-parfums.md`](docs/
 - Survol et sélection d'un flacon : il vient se présenter face à l'utilisateur.
 - Rotation du flacon présenté, à la souris ou au doigt.
 - Fiche parfum en carte papier : la météo en direct racontée en une phrase, la pyramide olfactive avec la donnée qui explique chaque note, et le sillage.
-- Bouton « Vaporiser » : brume de particules en 3D, puis voile coloré sur tout l'écran.
+- Bouton « Vaporiser » : le flacon se redresse, une fine bruine sort du bouchon dans un halo à la couleur du parfum, puis une carte parfumée raconte la ville en quelques phrases, différentes à chaque vaporisation.
 - Interface responsive : carte flottante sur ordinateur, panneau montant du bas sur mobile ; le flacon reste visible dans les deux cas.
 - Repli automatique sur une météo de secours si l'API est indisponible.
 - HUD et menu des 5 continents : la caméra pivote vers la section choisie, et le nom affiché suit le regard.
@@ -55,7 +55,7 @@ src/
 ├── hooks/         useParfums : chargement et composition
 └── components/
     ├── scene/     éléments 3D (boutique, flacon, brume)
-    └── ui/        interface HTML (fiche parfum, voile)
+    └── ui/        interface HTML (fiche parfum, carte parfumée)
 ```
 
 Le schéma d'intégration des données est disponible dans [`docs/`](docs/).
