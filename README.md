@@ -15,7 +15,7 @@ La boutique compte 5 sections, une par continent (Europe, Asie, Océanie, Afriqu
 - le vent règle le **sillage**, c'est-à-dire l'ampleur de l'effet « vaporiser » ;
 - la température et la couverture nuageuse déterminent la **couleur du flacon**.
 
-Les règles complètes sont décrites dans [`docs/composition-des-parfums.md`](docs/composition-des-parfums.md).
+Les règles complètes sont décrites dans [`docs/composition-parfums.md`](docs/composition-parfums.md).
 
 ## Fonctionnalités
 
@@ -23,9 +23,9 @@ Les règles complètes sont décrites dans [`docs/composition-des-parfums.md`](d
 - Boutique 3D vue depuis son centre : on regarde autour de soi en faisant glisser la vue.
 - Survol et sélection d'un flacon : il vient se présenter face à l'utilisateur.
 - Rotation du flacon présenté, à la souris ou au doigt.
-- Fiche parfum : météo en direct, pyramide olfactive et sillage, avec la donnée qui explique chaque note.
+- Fiche parfum en carte papier : la météo en direct racontée en une phrase, la pyramide olfactive avec la donnée qui explique chaque note, et le sillage.
 - Bouton « Vaporiser » : brume de particules en 3D, puis voile coloré sur tout l'écran.
-- Interface responsive : panneau latéral sur ordinateur, panneau montant du bas sur mobile.
+- Interface responsive : carte flottante sur ordinateur, panneau montant du bas sur mobile ; le flacon reste visible dans les deux cas.
 - Repli automatique sur une météo de secours si l'API est indisponible.
 - HUD et menu des 5 continents : la caméra pivote vers la section choisie, et le nom affiché suit le regard.
 
@@ -34,6 +34,7 @@ Les règles complètes sont décrites dans [`docs/composition-des-parfums.md`](d
 - **React** (Vite) pour l'interface
 - **Three.js** via **React Three Fiber** et **drei** pour la scène 3D
 - **CSS Modules** pour les styles
+- **Google Fonts** : WindSong (noms des villes) et Cormorant Garamond (fiche parfum)
 - **Open-Meteo** pour la météo en direct
 - **Netlify** pour le déploiement
 
@@ -86,12 +87,13 @@ npm run preview
 Tous les documents sont dans [`docs/`](docs/) :
 
 - plan au sol de la boutique, arborescence et schéma d'intégration des données ;
-- [wireframes](docs/wireframes/) desktop et mobile ;
+- [wireframes](docs/aeria-wireframes.pdf) desktop et mobile ;
 - planning ;
-- [règles de composition des parfums](docs/composition-des-parfums.md) ;
+- [règles de composition des parfums](docs/composition-parfums.md) ;
 - [candidats v2](docs/candidats-v2.md) : les idées écartées pour tenir le périmètre.
 
 ## Crédits
 
 Données météo : [Open-Meteo](https://open-meteo.com/), sous licence CC BY 4.0.
+Polices : [WindSong](https://fonts.google.com/specimen/WindSong) et [Cormorant Garamond](https://fonts.google.com/specimen/Cormorant+Garamond), sous licence SIL Open Font License 1.1.
 Modèles 3D des flacons : « Perfumes Bottles Pack - Low Poly » par [JiggleSticks](https://sketchfab.com/JiggleSticks), sous licence [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/) ([source](https://sketchfab.com/3d-models/perfumes-bottles-pack-low-poly-655e262f3d2c41fbb7de78b348585b08)).
