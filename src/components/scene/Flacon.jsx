@@ -137,7 +137,7 @@ export function Flacon({ parfum, pieces, position, estSelectionne, onSelect }) {
               <meshStandardMaterial
                 color={parfum.couleur}
                 emissive={parfum.couleur}
-                emissiveIntensity={misEnValeur ? 0.35 : 0.1}
+                emissiveIntensity={misEnValeur ? 0.7 : 0.35}
                 roughness={0.1}
                 transparent
                 opacity={0.92}

@@ -5,7 +5,7 @@ import { Etagere } from './Etagere'
 import { useModelesFlacons, HAUTEUR_FLACON } from './modele'
 
 const RAYON = 6        // distance entre la caméra (au centre) et les étagères
-const ECART_DEG = 10    // écart angulaire entre deux flacons d'une même section
+const ECART_DEG = 8   // écart angulaire entre deux flacons d'une même section
 const HAUTEUR = 1.4    // un peu sous le niveau des yeux (1.6)
 
 // Convertit un angle du plan au sol (0° = devant, positif = à droite)
@@ -21,7 +21,7 @@ export function Boutique({ parfums, selectionId, onSelect }) {
   return (
     <>
       <mesh rotation-x={-Math.PI / 2}>
-        <circleGeometry args={[8, 48]} />
+        <circleGeometry args={[18, 64]} />
         <meshStandardMaterial color="#e9e0d2" roughness={0.85} />
       </mesh>
       {CONTINENTS.map((continent) => {
