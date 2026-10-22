@@ -114,6 +114,7 @@ export function FicheParfum({
         ref={boutonRef}
         type="button"
         className={styles.vaporiser}
+        data-son="aucun"
         onClick={onVaporiser}
         disabled={vaporisationEnCours}
       >
