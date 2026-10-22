@@ -6,7 +6,7 @@ const LIBELLES_SOURCE = {
   secours: 'Météo hors ligne',
 }
 
-export function Hud({ sectionId, source, onAller }) {
+export function Hud({ sectionId, source, onAller, sonCoupe, onBasculerSon }) {
   const n = CONTINENTS.length
   const index = CONTINENTS.findIndex((c) => c.id === sectionId)
   const section = CONTINENTS[index]
@@ -17,7 +17,25 @@ export function Hud({ sectionId, source, onAller }) {
     <div className={styles.hud}>
       <header className={styles.haut}>
         <p className={styles.logo}>AERIA</p>
-        <p className={styles.source}>{LIBELLES_SOURCE[source] ?? 'Chargement…'}</p>
+        <div className={styles.reglages}>
+          <p className={styles.source}>{LIBELLES_SOURCE[source] ?? 'Chargement…'}</p>
+          <button
+            type="button"
+            className={styles.son}
+            onClick={onBasculerSon}
+            aria-label="Couper le son"
+            aria-pressed={sonCoupe}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4 9h4l5-4v14l-5-4H4z" />
+              {sonCoupe ? (
+                <path d="M16.5 9.5l5 5m0-5l-5 5" />
+              ) : (
+                <path d="M16 9a4 4 0 0 1 0 6m2.5-8.5a7.5 7.5 0 0 1 0 11" />
+              )}
+            </svg>
+          </button>
+        </div>
       </header>
 
       <div className={styles.titre} aria-live="polite">
