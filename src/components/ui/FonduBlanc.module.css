@@ -1,0 +1,34 @@
+.fondu {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+
+.entrant {
+  animation-name: blanchir;
+  animation-duration: 0.7s;
+}
+
+.sortant {
+  animation-name: eclaircir;
+  animation-duration: 0.9s;
+}
+
+@keyframes blanchir {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes eclaircir {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entrant,
+  .sortant {
+    animation-duration: 0.01ms;
+  }
+}

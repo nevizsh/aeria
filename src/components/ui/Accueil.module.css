@@ -1,0 +1,105 @@
+.accueil {
+  position: fixed;
+  inset: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 6rem;
+  background: rgba(14, 11, 20, 0.82);
+  color: var(--texte);
+}
+
+.logo {
+  position: absolute;
+  top: 1.5rem;
+  left: 2rem;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+}
+
+.carte {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 34rem;
+}
+
+.surtitre {
+  margin: 0;
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--texte-doux);
+}
+
+.titre {
+  margin: 0;
+  font-size: 6rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.accroche {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--texte-doux);
+}
+
+.entrer {
+  align-self: flex-start;
+  min-height: 3.25rem;
+  padding: 0 1.75rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--texte);
+  color: var(--panneau);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.entrer:focus-visible {
+  outline: 2px solid var(--texte);
+  outline-offset: 3px;
+}
+
+.credit {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 2rem;
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--texte-doux);
+}
+
+.credit a {
+  color: inherit;
+}
+
+@media (max-width: 768px) {
+  .accueil {
+    justify-content: flex-end;
+    padding: 1.5rem 1.25rem 4rem;
+  }
+
+  .logo {
+    left: 1.25rem;
+  }
+
+  .titre {
+    font-size: 4rem;
+  }
+
+  .entrer {
+    align-self: stretch;
+  }
+
+  .credit {
+    left: 1.25rem;
+  }
+}
