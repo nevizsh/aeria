@@ -33,6 +33,10 @@ export function NavigationCamera({ demande, onSectionVisible }) {
   }, [demande])
 
   useEffect(() => {
+    if (controls) controls.update()
+  }, [controls])
+
+  useEffect(() => {
     if (!controls) return
     const annuler = () => {
       angleVise.current = null

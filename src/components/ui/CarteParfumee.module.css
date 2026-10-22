@@ -1,0 +1,119 @@
+.carte {
+  position: fixed;
+  inset: auto auto 2rem calc((100% - var(--largeur-fiche)) / 2);
+  width: min(22rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 4rem);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 1.75rem 1.75rem 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--papier);
+  color: var(--encre);
+  font-family: var(--police-titre);
+  text-align: center;
+  border: 1px solid var(--laiton);
+  border-radius: 0.25rem;
+  outline: 1px solid var(--laiton);
+  outline-offset: -0.45rem;
+  transform: translateX(-50%) rotate(-1.5deg);
+  animation: pose 0.5s ease-out;
+}
+
+.carte:not([open]) {
+  display: none;
+}
+
+.carte::backdrop {
+  background: rgba(43, 35, 48, 0.25);
+  animation: apparition 0.5s ease-out;
+}
+
+@keyframes pose {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(1.5rem) rotate(-5deg);
+  }
+}
+
+@keyframes apparition {
+  from { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  .carte {
+    inset: auto auto 1rem 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carte,
+  .carte::backdrop {
+    animation-name: apparition;
+  }
+}
+
+.pastille {
+  composes: losange from './ornements.module.css';
+  margin-top: 0.4rem;
+}
+
+.surtitre {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.titre {
+  margin: 0;
+  font-family: var(--police-script);
+  font-size: 2.75rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.separateur {
+  composes: separateur from './ornements.module.css';
+  align-self: stretch;
+}
+
+.texte {
+  margin: 0;
+  font-size: 1.2rem;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.signature {
+  align-self: flex-end;
+  margin: 0;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--encre-douce);
+}
+
+.fermer {
+  min-height: 2.75rem;
+  margin-top: 0.25rem;
+  padding: 0 1.5rem;
+  border: 1px solid var(--laiton);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--encre);
+  font-family: var(--police-titre);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.fermer:focus-visible {
+  outline: 2px solid var(--encre);
+  outline-offset: 3px;
+}

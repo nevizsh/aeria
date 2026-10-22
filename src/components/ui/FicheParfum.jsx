@@ -5,14 +5,22 @@ import styles from './FicheParfum.module.css'
 
 const NIVEAUX_SILLAGE = { 'léger': 1, 'moyen': 2, 'fort': 3 }
 
-export function FicheParfum({ parfum, onFermer, onVaporiser, vaporisationEnCours }) {
+export function FicheParfum({
+  parfum,
+  onFermer,
+  onVaporiser,
+  vaporisationEnCours,
+  carteOuverte,
+  boutonRef,
+}) {
   useEffect(() => {
+    if (carteOuverte) return
     const surTouche = (e) => {
       if (e.key === 'Escape') onFermer()
     }
     window.addEventListener('keydown', surTouche)
     return () => window.removeEventListener('keydown', surTouche)
-  }, [onFermer])
+  }, [onFermer, carteOuverte])
 
   const continent = CONTINENTS.find((c) => c.id === parfum.continent)
   const m = parfum.meteo
@@ -103,6 +111,7 @@ export function FicheParfum({ parfum, onFermer, onVaporiser, vaporisationEnCours
       </section>
 
       <button
+        ref={boutonRef}
         type="button"
         className={styles.vaporiser}
         onClick={onVaporiser}

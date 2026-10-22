@@ -1,18 +1,20 @@
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { Brume, dureeJet } from './components/scene/Brume'
+import { ecrireRecit } from './composition/ecrireRecit'
+import { CarteParfumee } from './components/ui/CarteParfumee'
 import { Canvas } from '@react-three/fiber'
 import { NeutralToneMapping } from 'three'
 import { Environment, Lightformer, OrbitControls } from '@react-three/drei'
 import { useParfums } from './hooks/useParfums'
 import { Boutique } from './components/scene/Boutique'
 import { FicheParfum } from './components/ui/FicheParfum'
-import { VoileParfum } from './components/ui/VoileParfum'
 import { NavigationCamera } from './components/scene/NavigationCamera'
 import { Hud } from './components/ui/Hud'
 import { Accueil } from './components/ui/Accueil'
 import { FonduBlanc } from './components/ui/FonduBlanc'
 import { AjustementCamera } from './components/scene/AjustementCamera'
 import { LumiereVitrine } from './components/scene/LumiereVitrine'
+import { FlaconAccueil } from './components/scene/FlaconAccueil'
 
 export default function App() {
   const { parfums, source } = useParfums()
@@ -22,12 +24,16 @@ export default function App() {
   const parfumSelectionne = parfums.find((p) => p.id === selectionId)
   const [jet, setJet] = useState(null)
   const [vaporisationEnCours, setVaporisationEnCours] = useState(false)
+  const [carte, setCarte] = useState(null)
+  const nombreVaporisations = useRef(0)
+  const boutonVaporiser = useRef(null)
 
   const [sectionVisible, setSectionVisible] = useState('oceanie')
   const [navigation, setNavigation] = useState(null)
 
   const [etape, setEtape] = useState('accueil')
   const surAccueil = etape === 'accueil' || etape === 'fondu-entrant'
+  const flaconAccueil = parfums.find((p) => p.id === 'noumea')
   const enBoutique = etape === 'fondu-sortant' || etape === 'boutique'
 
   function finDuFondu() {
@@ -36,21 +42,33 @@ export default function App() {
 
   useEffect(() => {
     if (!vaporisationEnCours) return
-    const minuteur = setTimeout(
-      () => setVaporisationEnCours(false),
-      dureeJet(jet.sillage) * 1000,
-    )
+    const minuteur = setTimeout(() => {
+      setVaporisationEnCours(false)
+      setCarte(jet.carte)
+    }, dureeJet(jet.sillage) * 1000)
     return () => clearTimeout(minuteur)
   }, [vaporisationEnCours, jet])
 
   function vaporiser() {
-    setJet({ couleur: parfumSelectionne.couleur, sillage: parfumSelectionne.sillage })
+    const phrases = ecrireRecit(parfumSelectionne, nombreVaporisations.current)
+    nombreVaporisations.current += 1
+    setJet({
+      couleur: parfumSelectionne.couleur,
+      sillage: parfumSelectionne.sillage,
+      carte: { ville: parfumSelectionne.nom, couleur: parfumSelectionne.couleur, phrases },
+    })
     setVaporisationEnCours(true)
+  }
+
+  function fermerCarte() {
+    setCarte(null)
+    boutonVaporiser.current?.focus()
   }
 
   function fermerFiche() {
     setSelectionId(null)
     setVaporisationEnCours(false)
+    setCarte(null)
   }
 
   return (
@@ -69,11 +87,15 @@ export default function App() {
         <fog attach="fog" args={['#f4ede2', 9, 20]} />
         <AjustementCamera />
         <Suspense fallback={null}>
-          <Boutique
-            parfums={parfums}
-            selectionId={selectionId}
-            onSelect={setSelectionId}
-          />
+          <group visible={enBoutique}>
+            <Boutique
+              parfums={parfums}
+              selectionId={selectionId}
+              onSelect={setSelectionId}
+              vaporisation={vaporisationEnCours}
+            />
+          </group>
+          {surAccueil && flaconAccueil && <FlaconAccueil parfum={flaconAccueil} />}
         </Suspense>
         <Brume jet={jet} />
         <NavigationCamera
@@ -104,14 +126,14 @@ export default function App() {
           onFermer={fermerFiche}
           onVaporiser={vaporiser}
           vaporisationEnCours={vaporisationEnCours}
+          carteOuverte={Boolean(carte)}
+          boutonRef={boutonVaporiser}
         />
       )}
 
-      {vaporisationEnCours && (
-        <VoileParfum couleur={jet.couleur} duree={dureeJet(jet.sillage)} />
-      )}
+      {carte && <CarteParfumee carte={carte} onFermer={fermerCarte} />}
 
-            {surAccueil && <Accueil onEntrer={() => setEtape('fondu-entrant')} />}
+      {surAccueil && <Accueil parfums={parfums} onEntrer={() => setEtape('fondu-entrant')} />}
 
       {(etape === 'fondu-entrant' || etape === 'fondu-sortant') && (
         <FonduBlanc
