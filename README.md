@@ -1,16 +1,94 @@
-# React + Vite
+# Aeria
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+**Une parfumerie de villes** : une boutique en 3D où chaque flacon contient la météo en direct d'une ville.
 
-Currently, two official plugins are available:
+🔗 **Site en ligne : https://aeria-genevieve.netlify.app**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Projet réalisé dans le cadre du BUT MMI (3e année, parcours Développement web et dispositifs interactifs), Université de la Nouvelle-Calédonie.
 
-## React Compiler
+## Le concept
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+La boutique compte 5 sections, une par continent (Europe, Asie, Océanie, Afrique, Amériques), et 5 flacons par section, soit 25 parfums. Chaque parfum est **composé à partir de la météo actuelle de sa ville** :
 
-## Expanding the Oxlint configuration
+- le type de temps donne la **note de tête**, la température la **note de cœur** et l'humidité la **note de fond** ;
+- la nuit ajoute un **accord nocturne** ;
+- le vent règle le **sillage**, c'est-à-dire l'ampleur de l'effet « vaporiser » ;
+- la température et la couverture nuageuse déterminent la **couleur du flacon**.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Les règles complètes sont décrites dans [`docs/composition-des-parfums.md`](docs/composition-des-parfums.md).
+
+## Fonctionnalités
+
+- Boutique 3D vue depuis son centre : on regarde autour de soi en faisant glisser la vue.
+- Survol et sélection d'un flacon : il vient se présenter face à l'utilisateur.
+- Rotation du flacon présenté, à la souris ou au doigt.
+- Fiche parfum : météo en direct, pyramide olfactive et sillage, avec la donnée qui explique chaque note.
+- Bouton « Vaporiser » : brume de particules en 3D, puis voile coloré sur tout l'écran.
+- Interface responsive : panneau latéral sur ordinateur, panneau montant du bas sur mobile.
+- Repli automatique sur une météo de secours si l'API est indisponible.
+
+## Stack technique
+
+- **React** (Vite) pour l'interface
+- **Three.js** via **React Three Fiber** et **drei** pour la scène 3D
+- **CSS Modules** pour les styles
+- **Open-Meteo** pour la météo en direct
+- **Netlify** pour le déploiement
+
+## Données
+
+- `src/data/villes.json` : les 25 villes (nom, pays, continent, coordonnées).
+- `src/data/continents.js` : l'ordre et la position des 5 sections dans la boutique.
+- `src/services/meteo.js` : la météo des 25 villes est récupérée en **une seule requête** groupée (coordonnées séparées par des virgules). En cas d'échec ou de délai dépassé, l'application bascule sur `src/data/meteo-secours.json`, un relevé réel au même format.
+- `src/composition/` : transforme villes et météo en parfums, consommés par la scène 3D et par l'interface.
+
+## Architecture
+
+```
+src/
+├── data/          villes, continents, météo de secours
+├── services/      appel à l'API Open-Meteo et repli
+├── composition/   règles et calcul des parfums
+├── hooks/         useParfums : chargement et composition
+└── components/
+    ├── scene/     éléments 3D (boutique, flacon, brume)
+    └── ui/        interface HTML (fiche parfum, voile)
+```
+
+Le schéma d'intégration des données est disponible dans [`docs/`](docs/).
+
+## Installation
+
+Prérequis : Node.js 20 ou plus récent.
+
+```bash
+npm install
+npm run dev
+```
+
+Pour produire et prévisualiser la version finale :
+
+```bash
+npm run build
+npm run preview
+```
+
+## Organisation du travail
+
+- Branches : `main` (version en ligne), `develop` (intégration) et `feature/*` (une branche par fonctionnalité).
+- Messages de commit au format **Conventional Commits** (`feat`, `fix`, `docs`, `refactor`, `style`, `build`…).
+- Déploiement automatique sur Netlify à chaque mise à jour de `main`.
+
+## Documents de préparation
+
+Tous les documents sont dans [`docs/`](docs/) :
+
+- plan au sol de la boutique, arborescence et schéma d'intégration des données ;
+- [wireframes](docs/wireframes/) desktop et mobile ;
+- planning ;
+- [règles de composition des parfums](docs/composition-des-parfums.md) ;
+- [candidats v2](docs/candidats-v2.md) : les idées écartées pour tenir le périmètre.
+
+## Crédits
+
+Données météo : [Open-Meteo](https://open-meteo.com/), sous licence CC BY 4.0.
