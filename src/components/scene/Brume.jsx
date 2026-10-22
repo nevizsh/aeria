@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
-import { CanvasTexture, Vector3 } from 'three'
+import { Vector3 } from 'three'
 import { pointVitrine } from './vitrine'
+import { TEXTURE_DOUCE } from './textures'
 import { HAUTEUR_FLACON } from './modele'
 
 const NB_PARTICULES = 400
@@ -9,21 +10,6 @@ const HAUTEUR_BUSE = HAUTEUR_FLACON * 0.6
 
 const origine = new Vector3()
 const versCamera = new Vector3()
-
-function creerTextureDouce() {
-  const canvas = document.createElement('canvas')
-  canvas.width = 64
-  canvas.height = 64
-  const ctx = canvas.getContext('2d')
-  const degrade = ctx.createRadialGradient(32, 32, 0, 32, 32, 32)
-  degrade.addColorStop(0, 'rgba(255, 255, 255, 1)')
-  degrade.addColorStop(1, 'rgba(255, 255, 255, 0)')
-  ctx.fillStyle = degrade
-  ctx.fillRect(0, 0, 64, 64)
-  return new CanvasTexture(canvas)
-}
-
-const TEXTURE_DOUCE = creerTextureDouce()
 
 export function dureeJet(sillage) {
   return 1.2 + sillage.intensite * 0.8
