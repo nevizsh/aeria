@@ -1,6 +1,7 @@
 import { Suspense, useEffect, useState } from 'react'
 import { Brume, dureeJet } from './components/scene/Brume'
 import { Canvas } from '@react-three/fiber'
+import { NeutralToneMapping } from 'three'
 import { Environment, Lightformer, OrbitControls } from '@react-three/drei'
 import { useParfums } from './hooks/useParfums'
 import { Boutique } from './components/scene/Boutique'
@@ -56,19 +57,16 @@ export default function App() {
     <>
       <Canvas
         camera={{ position: [0, 1.6, 0.01], fov: 60 }}
-        onCreated={({ gl }) => {
-          gl.toneMappingExposure = 1.5
-        }}
+        gl={{ toneMapping: NeutralToneMapping, toneMappingExposure: 1 }}
       >
         <LumiereVitrine actif={Boolean(selectionId)} />
-        <ambientLight intensity={0.8} />
-        <hemisphereLight args={['#fff4ea', '#3a2f48', 1.2]} />
-        <Environment resolution={256} environmentIntensity={1.5}>
+        <hemisphereLight args={['#fffaf2', '#d8cbb8', 1]} />
+        <Environment resolution={256} environmentIntensity={1}>
           <Lightformer form="ring" intensity={2} position={[0, 4, 0]} rotation-x={Math.PI / 2} scale={6} />
           <Lightformer intensity={1.5} position={[0, 2, -8]} scale={[10, 2, 1]} />
           <Lightformer intensity={1.5} position={[0, 2, 8]} scale={[10, 2, 1]} />
         </Environment>
-        <fog attach="fog" args={['#241c2e', 8, 18]} />
+        <fog attach="fog" args={['#f4ede2', 9, 20]} />
         <AjustementCamera />
         <Suspense fallback={null}>
           <Boutique

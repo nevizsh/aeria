@@ -22,7 +22,7 @@ export function Boutique({ parfums, selectionId, onSelect }) {
     <>
       <mesh rotation-x={-Math.PI / 2}>
         <circleGeometry args={[8, 48]} />
-        <meshStandardMaterial color="#2c2337" roughness={0.5} />
+        <meshStandardMaterial color="#e9e0d2" roughness={0.85} />
       </mesh>
       {CONTINENTS.map((continent) => {
         const flacons = parfums.filter((p) => p.continent === continent.id)
