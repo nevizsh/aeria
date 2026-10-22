@@ -93,3 +93,68 @@ Bergen, 9 °C, pluie, 88 % d'humidité, vent 22 km/h, de nuit, ciel couvert :
 - Accord musqué nocturne
 - Sillage moyen
 - Couleur : bleu-violet sombre
+## Récits de la carte parfumée
+
+À chaque vaporisation, une carte affiche un court texte de trois phrases sur
+la ville. Il est écrit à partir de modèles de phrases à trous, sans IA ni API.
+
+Implémentation : `src/composition/recits.js` (tables de phrases) et
+`src/composition/ecrireRecit.js` (assemblage, fonction pure).
+
+### Les trois phrases
+
+| Phrase | Choisie selon | Variantes |
+|---|---|---|
+| Ouverture | Type de temps × moment de la journée | 2 par case (7 temps × 4 moments) |
+| Sensation | Température | 3 par palier |
+| Clôture | Sillage | 3 par niveau |
+
+Le moment de la journée vient de l'heure locale de la ville :
+
+| Heure locale | Moment |
+|---|---|
+| De 5 h à 11 h | Matin |
+| De 12 h à 17 h | Après-midi |
+| De 18 h à 22 h | Soir |
+| De 23 h à 4 h | Nuit |
+
+Les paliers de température reprennent ceux de la note de cœur (0, 12, 22 et
+30 °C), pour que le texte et la note racontent la même chose.
+
+### Les trous
+
+| Trou | Exemple |
+|---|---|
+| `{ville}` | Nouméa |
+| `{aVille}` | à Nouméa, au Caire |
+| `{deVille}` | de Nouméa, d'Auckland, du Cap |
+| `{dansPays}` | en Nouvelle-Calédonie, au Japon, aux États-Unis |
+| `{temperature}` | 20 °C |
+
+Les formes contractées (« au Caire », « du Cap ») et la préposition de chaque
+pays sont listées dans des tables, plutôt que devinées par une règle
+grammaticale qui aurait des exceptions. Pour Singapour, où la ville et le pays
+portent le même nom, `{dansPays}` devient « dans la cité-État ».
+
+### Choix des variantes
+
+Une empreinte numérique est calculée à partir de l'identifiant de la ville, puis
+on lui ajoute le nombre de vaporisations déjà faites. Ce nombre sert de
+« compteur » pour choisir successivement la variante de chaque phrase.
+
+- Deux villes au même temps partent d'empreintes différentes : leurs textes
+  diffèrent presque toujours.
+- Chaque nouvelle vaporisation change au moins la phrase d'ouverture : le texte
+  n'est jamais deux fois de suite identique.
+- Pour un même parfum et un même nombre de vaporisations, le résultat est
+  toujours le même : la fonction est pure et testable.
+
+Il y a 18 combinaisons par temps et par moment de la journée.
+
+### Exemple
+
+Le Caire, nuit, ciel nuageux, 19 °C, sillage léger :
+
+> La nuit est épaisse au Caire : les nuages ont caché la lune. Il fait 19 °C,
+> une douceur qui donne envie de flâner. Son sillage est léger : il ne se
+> révèle qu'à ceux qui s'approchent.

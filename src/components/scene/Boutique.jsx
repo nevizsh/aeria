@@ -16,7 +16,7 @@ function positionSurCercle(angleDeg) {
   return [RAYON * Math.sin(a), HAUTEUR, -RAYON * Math.cos(a)]
 }
 
-export function Boutique({ parfums, selectionId, onSelect }) {
+export function Boutique({ parfums, selectionId, onSelect, vaporisation }) {
   const modeles = useModelesFlacons()
   return (
     <>
@@ -47,6 +47,7 @@ export function Boutique({ parfums, selectionId, onSelect }) {
                     parfum={parfum}
                     position={positionSurCercle(continent.angle + decalage)}
                     estSelectionne={parfum.id === selectionId}
+                    redresse={parfum.id === selectionId && vaporisation}
                     onSelect={onSelect}
                     pieces={modeles[continent.id]}
                 />

@@ -24,7 +24,7 @@ function tourner(quaternion, camera, horizontal, vertical) {
   quaternion.premultiply(pas.setFromAxisAngle(DROITE, vertical))
 }
 
-export function Flacon({ parfum, pieces, position, estSelectionne, onSelect }) {
+export function Flacon({ parfum, pieces, position, estSelectionne, redresse, onSelect }) {
   const ref = useRef()
   const pivot = useRef()
   const glissement = useRef(null)
@@ -97,7 +97,11 @@ export function Flacon({ parfum, pieces, position, estSelectionne, onSelect }) {
 
     const q = pivot.current.quaternion
 
-    if (estSelectionne) {
+    if (redresse) {
+      elan.current.x = 0
+      elan.current.y = 0
+      q.slerp(DROIT, t)
+    } else if (estSelectionne) {
       if (!glissement.current) {
         const amorti = Math.exp(-FREIN_INERTIE * delta)
         elan.current.x *= amorti
