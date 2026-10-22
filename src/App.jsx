@@ -10,6 +10,7 @@ import { NavigationCamera } from './components/scene/NavigationCamera'
 import { Hud } from './components/ui/Hud'
 import { Accueil } from './components/ui/Accueil'
 import { FonduBlanc } from './components/ui/FonduBlanc'
+import { AjustementCamera } from './components/scene/AjustementCamera'
 
 export default function App() {
   const { parfums, source } = useParfums()
@@ -54,6 +55,7 @@ export default function App() {
     <>
       <Canvas camera={{ position: [0, 1.6, 0.01], fov: 60 }}>
         <hemisphereLight args={['#ffffff', '#444444', 1.5]} />
+        <AjustementCamera />
         <Boutique
           parfums={parfums}
           selectionId={selectionId}

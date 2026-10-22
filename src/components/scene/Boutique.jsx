@@ -1,6 +1,7 @@
 import { MathUtils } from 'three'
 import { CONTINENTS } from '../../data/continents'
 import { Flacon } from './Flacon'
+import { Etagere } from './Etagere'
 
 const RAYON = 6        // distance entre la caméra (au centre) et les étagères
 const ECART_DEG = 8    // écart angulaire entre deux flacons d'une même section
@@ -24,6 +25,7 @@ export function Boutique({ parfums, selectionId, onSelect }) {
           // Un group par section : on pourra plus tard le déplacer,
           // le mettre en surbrillance ou lui ajouter une étagère d'un bloc.
           <group key={continent.id}>
+            <Etagere angle={continent.angle} rayon={RAYON} hauteurFlacons={HAUTEUR} />
             {flacons.map((parfum, i) => {
               // Centre les flacons autour de l'angle de la section,
               // quel que soit leur nombre : pour 5 flacons → -16°, -8°, 0°, 8°, 16°
